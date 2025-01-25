@@ -1,33 +1,85 @@
-# Gradle files
-.gradle/
+# ================================================
+# Android Studio e IntelliJ IDEA
+# ================================================
+.idea/
+*.iml
+*.ipr
+*.iws
+.idea_modules/
+workspace.xml
+modules.xml
+navEditor/
+local.properties  # SDK y rutas locales (¡NUNCA VERSIONAR!)
+/captures/  # Capturas del emulador
+/.android/  # Configuración del emulador (si está en el proyecto)
+
+# ================================================
+# Archivos de Build y Gradle
+# ================================================
 build/
-
-# Local configuration file (sdk path, etc)
-local.properties
-
-# Log/OS Files
-*.log
-
-# Android Studio generated files and folders
-captures/
+app/build/
+out/
+bin/
+.gradle/
+!gradle-wrapper.jar  # Mantener el wrapper de Gradle
+gradle.properties  # Configuraciones sensibles (ej: claves)
 .externalNativeBuild/
 .cxx/
 *.apk
-output.json
-
-# IntelliJ
-*.iml
-.idea/
-misc.xml
-deploymentTargetDropDown.xml
-render.experimental.xml
-
-# Keystore files
-*.jks
+*.aab
+*.aar
 *.keystore
+*.jks  # Archivos de firma (¡NO VERSIONAR!)
 
-# Google Services (e.g. APIs or Firebase)
+# ================================================
+# Kotlin y KMP/Kotlin Multiplatform
+# ================================================
+.kotlin/
+.kotlin_module
+*.kapt
+/build-logic/build/
+
+# ================================================
+# Archivos temporales y logs
+# ================================================
+*.log
+*.tmp
+*.swp
+*.swo
+*.hprof  # Heap dumps
+.recovery
+
+# ================================================
+# Sistema y archivos ocultos
+# ================================================
+.DS_Store
+Thumbs.db
+._*
+*.orig  # Archivos de conflicto
+
+# ================================================
+# Tests y reportes
+# ================================================
+.coverage/
+/reports/
+/test-results/
+.metadata/
+
+# ================================================
+# Dependencias y herramientas externas
+# ================================================
+packages/
+**/lib/
+**/www/
+node_modules/
+
+# ================================================
+# Firebase y servicios externos
+# ================================================
 google-services.json
+google-services.*.json
 
-# Android Profiling
-*.hprof
+# ================================================
+# Jetpack Compose
+# ================================================
+app/build/intermediates/compose_metrics/

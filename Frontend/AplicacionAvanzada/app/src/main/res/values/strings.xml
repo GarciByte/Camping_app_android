@@ -1,0 +1,64 @@
+<resources>
+    <string name="app_name">Mi Camping</string>
+    <string name="created_by">Creado por Equipo EcoAventura</string>
+    <string name="license">Licencia: GPL v3</string>
+    <string name="content_description_logo">Logo de Mi Camping</string>
+    <string name="version">Versión:</string>
+    <string name="github_link">GitHub</string>
+    <string name="help">Ayuda</string>
+    <string name="camping_intro">Bienvenido a nuestro camping, un espacio de naturaleza y descanso. Aquí podrás disfrutar de la tranquilidad del entorno, rodeado de árboles y con una vista espectacular al lago.</string>
+    <string name="camping_recommendations">Para aprovechar al máximo tu estadía, te recomendamos llevar ropa cómoda y abrigada, ya que las noches suelen ser frescas. No olvides tu equipo de camping y disfruta de la aventura al aire libre.</string>
+    <string name="camping_events">Contamos con eventos especiales durante los fines de semana, como noches de música en vivo, cine bajo las estrellas y actividades para todas las edades. Únete a nuestras actividades y conoce a otros campistas.</string>
+    <string name="settings_image_desc">Imagen de configuración</string>
+    <string name="notifications">Recibir notificaciones de eventos</string>
+    <string name="dark_mode">Modo oscuro</string>
+    <string name="additional_services">Servicios adicionales</string>
+    <string name="tent_rental">Alquiler de tienda</string>
+    <string name="wifi_access">Acceso a Wi-Fi</string>
+    <string name="breakfast">Desayuno incluido</string>
+    <string name="landscape_type">Tipo de paisaje preferido</string>
+    <string name="mountain">Montaña</string>
+    <string name="forest">Bosque</string>
+    <string name="beach">Playa</string>
+
+    <string name="about">Acerca de</string>
+    <string name="settings">Configuración</string>
+    <string name="exit">Salir</string>
+    <string name="exit_confirmation">Salir de Mi Camping</string>
+    <string name="exit_confirmation_message">¿Estás seguro de que quieres salir?</string>
+    <string name="confirm">Confirmar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="save_preferences">Guardar configuración</string>
+    <string name="long_toast_message">No puedes alquilar una tienda y tener el desayuno incluido</string>
+    <string name="short_toast_message">Datos guardados correctamente</string>
+
+    <string name="pokedex">Pokédex</string>
+    <string name="types">Tipos:</string>
+    <string name="weaknesses">Debilidades:</string>
+
+    <string name="login_title">Iniciar Sesión</string>
+    <string name="signup_title">Registrarse</string>
+    <string name="email_label">Correo Electrónico</string>
+    <string name="password_label">Contraseña</string>
+    <string name="login_button">Iniciar Sesión</string>
+    <string name="signup_button">Crear Cuenta</string>
+    <string name="login_prompt">¿Ya tienes cuenta? Inicia Sesión</string>
+    <string name="signup_prompt">¿No tienes cuenta? Regístrate</string>
+    <string name="logout">Cerrar Sesión</string>
+    <string name="login">Iniciar Sesión</string>
+
+    <string name="error_empty_email_password">El correo electrónico o la contraseña no pueden estar vacíos.</string>
+    <string name="error_generic">Algo salió mal. Por favor, inténtalo de nuevo.</string>
+    <string name="welcome_message">¡Bienvenido!</string>
+    <string name="login_image_desc">Ilustración de inicio de sesión</string>
+    <string name="signup_image_desc">Ilustración de Registrarsen</string>
+
+    <string name="home">Inicio</string>
+    <string name="tasks">Lista de tareas</string>
+    <string name="menu">Cajón de navegación</string>
+    <string name="add_task">Agregar tarea</string>
+    <string name="save_task">Guardar tarea</string>
+    <string name="delete_all_tasks">Borrar todas las tareas</string>
+    <string name="delete_task">Borrar tarea</string>
+
+</resources>

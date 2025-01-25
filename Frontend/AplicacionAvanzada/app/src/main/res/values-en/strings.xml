@@ -1,0 +1,64 @@
+<resources>
+    <string name="app_name">My Camping</string>
+    <string name="created_by">Created by Team EcoAventura</string>
+    <string name="license">License: GPL v3</string>
+    <string name="content_description_logo">My Camping Logo</string>
+    <string name="version">Version:</string>
+    <string name="github_link">GitHub</string>
+    <string name="help">Help"</string>
+    <string name="camping_intro">Welcome to our campsite, a place of nature and relaxation. Here you can enjoy the tranquility of the environment, surrounded by trees and with a spectacular view of the lake.</string>
+    <string name="camping_recommendations">To make the most of your stay, we recommend bringing comfortable and warm clothing, as the nights can be cool. Don\'t forget your camping gear and enjoy the outdoor adventure.</string>
+    <string name="camping_events">We host special events on weekends, such as live music nights, outdoor movie screenings, and activities for all ages. Join our activities and meet other campers.</string>
+    <string name="settings_image_desc">Settings image</string>
+    <string name="notifications">Receive event notifications</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="additional_services">Additional Services</string>
+    <string name="tent_rental">Tent Rental</string>
+    <string name="wifi_access">Wi-Fi Access</string>
+    <string name="breakfast">Breakfast Included</string>
+    <string name="landscape_type">Preferred Landscape</string>
+    <string name="mountain">Mountain</string>
+    <string name="forest">Forest</string>
+    <string name="beach">Beach</string>
+
+    <string name="about">About</string>
+    <string name="settings">Settings</string>
+    <string name="exit">Exit</string>
+    <string name="exit_confirmation">Exit of My Camping</string>
+    <string name="exit_confirmation_message">Are you sure you want to exit?</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="save_preferences">Save Settings</string>
+    <string name="long_toast_message">You can\'t rent a tent and have breakfast included</string>
+    <string name="short_toast_message">Data saved successfully</string>
+
+    <string name="pokedex">Pokédex</string>
+    <string name="types">Types:</string>
+    <string name="weaknesses">Weaknesses:</string>
+
+    <string name="login_title">Login</string>
+    <string name="signup_title">Sign Up</string>
+    <string name="email_label">Email</string>
+    <string name="password_label">Password</string>
+    <string name="login_button">Login</string>
+    <string name="signup_button">Sign Up</string>
+    <string name="login_prompt">Already have an account? Login</string>
+    <string name="signup_prompt">Don\'t have an account? Sign Up</string>
+    <string name="logout">Log Out</string>
+    <string name="login">Log In</string>
+
+    <string name="error_empty_email_password">Email or password cannot be empty.</string>
+    <string name="error_generic">Something went wrong. Please try again.</string>
+    <string name="welcome_message">Welcome!</string>
+    <string name="login_image_desc">Login illustration</string>
+    <string name="signup_image_desc">Signup illustration</string>
+
+    <string name="home">Home</string>
+    <string name="tasks">List of Tasks</string>
+    <string name="menu">Navigation drawer</string>
+    <string name="add_task">Add task</string>
+    <string name="save_task">Save task</string>
+    <string name="delete_all_tasks">Delete all tasks</string>
+    <string name="delete_task">Delete task</string>
+
+</resources>
