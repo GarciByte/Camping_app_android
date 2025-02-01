@@ -17,8 +17,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -31,6 +31,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.aplicacionavanzada.R
+import com.example.aplicacionavanzada.view.dialogs.ToastMessage
 import com.example.aplicacionavanzada.viewmodel.authentication.AuthState
 import com.example.aplicacionavanzada.viewmodel.authentication.AuthViewModel
 
@@ -38,32 +39,33 @@ import com.example.aplicacionavanzada.viewmodel.authentication.AuthViewModel
 fun Signup(authViewModel: AuthViewModel, navController: NavController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-
-    val authState = authViewModel.authState.observeAsState()
+    val authState = authViewModel.authState.collectAsState()
     val context = LocalContext.current
 
     LaunchedEffect(authState.value) {
-        when (authState.value) {
-            is AuthState.Authenticated -> {
+        when (val currentState = authState.value) {
+            AuthState.Authenticated -> {
                 Toast.makeText(
                     context,
                     context.getString(R.string.welcome_message),
                     Toast.LENGTH_SHORT
                 ).show()
                 navController.navigate("principal") {
-                    popUpTo("signup") {
+                    popUpTo("login") {
                         inclusive = true
                     }
                 }
             }
 
             is AuthState.Error -> {
-                val errorMessage = when ((authState.value as AuthState.Error).message) {
-                    AuthViewModel.ERROR_EMPTY_EMAIL_PASSWORD -> context.getString(R.string.error_empty_email_password)
-                    AuthViewModel.ERROR_GENERIC -> context.getString(R.string.error_generic)
-                    else -> (authState.value as AuthState.Error).message
-                }
-                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                val messageId = ToastMessage.getStringResourceId(currentState.messageKey)
+                val translatedMessage = context.getString(messageId)
+
+                Toast.makeText(
+                    context,
+                    translatedMessage,
+                    Toast.LENGTH_LONG
+                ).show()
             }
 
             else -> Unit
@@ -125,7 +127,7 @@ fun Signup(authViewModel: AuthViewModel, navController: NavController) {
 
         // Botón de crear cuenta
         Button(
-            onClick = { authViewModel.signup(email, password) },
+            onClick = { authViewModel.signUp(email, password) },
             enabled = authState.value != AuthState.Loading,
             modifier = Modifier.padding(horizontal = 24.dp),
             shape = MaterialTheme.shapes.extraSmall

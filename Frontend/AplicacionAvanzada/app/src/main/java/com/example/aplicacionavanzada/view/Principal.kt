@@ -21,8 +21,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -39,7 +40,14 @@ import com.example.aplicacionavanzada.viewmodel.authentication.AuthViewModel
 fun Principal(navController: NavController, authViewModel: AuthViewModel) {
 
     // Estado de autenticación
-    val authState by authViewModel.authState.observeAsState(AuthState.Unauthenticated)
+    val authState by authViewModel.authState.collectAsState()
+    val userEmail by authViewModel.userEmail.collectAsState()
+
+    LaunchedEffect(Unit) {
+        if (authState is AuthState.Authenticated) {
+            authViewModel.refreshAndSaveToken()
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -117,7 +125,7 @@ fun Principal(navController: NavController, authViewModel: AuthViewModel) {
         TextButton(
             onClick = {
                 if (authState is AuthState.Authenticated) {
-                    authViewModel.signout()
+                    authViewModel.signOut()
                 } else {
                     navController.navigate(AppScreens.Login.route)
                 }
@@ -126,7 +134,7 @@ fun Principal(navController: NavController, authViewModel: AuthViewModel) {
         ) {
             Text(
                 text = if (authState is AuthState.Authenticated) {
-                    stringResource(R.string.logout) + " (${authViewModel.currentUserEmail})"
+                    stringResource(R.string.logout) + " ($userEmail)"
                 } else {
                     stringResource(R.string.login)
                 },

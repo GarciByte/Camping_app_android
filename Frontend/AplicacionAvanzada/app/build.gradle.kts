@@ -67,8 +67,7 @@ dependencies {
     implementation(libs.androidx.runtime.livedata)
     val nav_version = "2.8.0"
     implementation("androidx.navigation:navigation-compose:$nav_version")
-
-    implementation(libs.firebase.auth)
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")

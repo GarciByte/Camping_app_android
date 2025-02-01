@@ -61,4 +61,14 @@
     <string name="delete_all_tasks">Delete all tasks</string>
     <string name="delete_task">Delete task</string>
 
+    <string name="empty_email">Email cannot be empty</string>
+    <string name="invalid_email">Invalid email format</string>
+    <string name="empty_password">Password cannot be empty</string>
+    <string name="invalid_password">Password must be at least 6 characters</string>
+    <string name="login_error">Login error occurred</string>
+    <string name="signup_error">Signup error occurred</string>
+    <string name="server_error">Server error occurred</string>
+    <string name="token_refresh_error">Token refresh failed</string>
+    <string name="generic_error">Unknown error occurred</string>
+
 </resources>

@@ -61,4 +61,14 @@
     <string name="delete_all_tasks">Borrar todas las tareas</string>
     <string name="delete_task">Borrar tarea</string>
 
+    <string name="empty_email">El email no puede estar vacío</string>
+    <string name="invalid_email">Formato de email inválido</string>
+    <string name="empty_password">La contraseña no puede estar vacía</string>
+    <string name="invalid_password">Contraseña inválida, mínimo 6 caracteres</string>
+    <string name="login_error">Error al iniciar sesión</string>
+    <string name="signup_error">Error al registrarse</string>
+    <string name="server_error">Error del servidor</string>
+    <string name="token_refresh_error">Error al refrescar el token</string>
+    <string name="generic_error">Error desconocido</string>
+
 </resources>
