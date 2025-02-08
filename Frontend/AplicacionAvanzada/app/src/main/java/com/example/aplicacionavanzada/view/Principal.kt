@@ -1,5 +1,6 @@
 package com.example.aplicacionavanzada.view
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,26 +28,43 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.aplicacionavanzada.R
 import com.example.aplicacionavanzada.model.AppScreens
+import com.example.aplicacionavanzada.view.dialogs.ToastMessage
 import com.example.aplicacionavanzada.viewmodel.authentication.AuthState
 import com.example.aplicacionavanzada.viewmodel.authentication.AuthViewModel
 
 @Composable
 fun Principal(navController: NavController, authViewModel: AuthViewModel) {
+    val context = LocalContext.current
 
     // Estado de autenticación
-    val authState by authViewModel.authState.collectAsState()
+    val currentState by authViewModel.authState.collectAsState()
     val userEmail by authViewModel.userEmail.collectAsState()
 
+    // Refrescar el token
     LaunchedEffect(Unit) {
-        if (authState is AuthState.Authenticated) {
+        if (currentState is AuthState.Authenticated) {
             authViewModel.refreshAndSaveToken()
         }
+    }
+
+    // Mostrar mensajes de error
+    if (currentState is AuthState.Error) {
+        val messageId = ToastMessage.getStringResourceId((currentState as AuthState.Error).messageKey)
+        val translatedMessage = context.getString(messageId)
+
+        Toast.makeText(
+            context,
+            translatedMessage,
+            Toast.LENGTH_LONG
+        ).show()
+
     }
 
     Box(
@@ -124,7 +142,7 @@ fun Principal(navController: NavController, authViewModel: AuthViewModel) {
         // Botón de inicio/cierre de sesión
         TextButton(
             onClick = {
-                if (authState is AuthState.Authenticated) {
+                if (currentState is AuthState.Authenticated) {
                     authViewModel.signOut()
                 } else {
                     navController.navigate(AppScreens.Login.route)
@@ -133,12 +151,12 @@ fun Principal(navController: NavController, authViewModel: AuthViewModel) {
             modifier = Modifier.align(Alignment.TopEnd)
         ) {
             Text(
-                text = if (authState is AuthState.Authenticated) {
+                text = if (currentState is AuthState.Authenticated) {
                     stringResource(R.string.logout) + " ($userEmail)"
                 } else {
                     stringResource(R.string.login)
                 },
-                style = MaterialTheme.typography.bodySmall,
+                style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary
             )
         }

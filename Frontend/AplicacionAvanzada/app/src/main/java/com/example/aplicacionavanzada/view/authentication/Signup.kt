@@ -39,17 +39,24 @@ import com.example.aplicacionavanzada.viewmodel.authentication.AuthViewModel
 fun Signup(authViewModel: AuthViewModel, navController: NavController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    val authState = authViewModel.authState.collectAsState()
     val context = LocalContext.current
 
-    LaunchedEffect(authState.value) {
-        when (val currentState = authState.value) {
-            AuthState.Authenticated -> {
+    // Estado de autenticación
+    val authState = authViewModel.authState.collectAsState()
+    val currentState = authState.value
+
+    LaunchedEffect(currentState) {
+        when (currentState) {
+
+            // Mensaje de bienvenida
+            is AuthState.Authenticated -> {
+
                 Toast.makeText(
                     context,
                     context.getString(R.string.welcome_message),
                     Toast.LENGTH_SHORT
                 ).show()
+
                 navController.navigate("principal") {
                     popUpTo("login") {
                         inclusive = true
@@ -57,6 +64,7 @@ fun Signup(authViewModel: AuthViewModel, navController: NavController) {
                 }
             }
 
+            // Mensaje de error
             is AuthState.Error -> {
                 val messageId = ToastMessage.getStringResourceId(currentState.messageKey)
                 val translatedMessage = context.getString(messageId)
@@ -130,7 +138,7 @@ fun Signup(authViewModel: AuthViewModel, navController: NavController) {
             onClick = { authViewModel.signUp(email, password) },
             enabled = authState.value != AuthState.Loading,
             modifier = Modifier.padding(horizontal = 24.dp),
-            shape = MaterialTheme.shapes.extraSmall
+            shape = MaterialTheme.shapes.large
         ) {
             Text(stringResource(id = R.string.signup_button))
         }

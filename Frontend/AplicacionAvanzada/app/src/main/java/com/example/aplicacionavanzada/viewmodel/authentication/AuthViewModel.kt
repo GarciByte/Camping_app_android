@@ -18,18 +18,19 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.first
 
-@SuppressLint("StaticFieldLeak")
 class AuthViewModel(application: Application) : AndroidViewModel(application) {
 
+    @SuppressLint("StaticFieldLeak")
     private val context = application.applicationContext
     private val authRepository = AuthRepository()
 
     companion object {
-        val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "dataStoreAuth")
-        private val ACCESS_TOKEN = stringPreferencesKey("access_token")
-        private val REFRESH_TOKEN = stringPreferencesKey("refresh_token")
-        private val USER_ID = stringPreferencesKey("user_id")
-        private val USER_EMAIL = stringPreferencesKey("user_email")
+        val Context.dataStoreAuth: DataStore<Preferences> by preferencesDataStore(name = "dataStoreAuth")
+
+        val ACCESS_TOKEN = stringPreferencesKey("access_token")
+        val REFRESH_TOKEN = stringPreferencesKey("refresh_token")
+        val USER_ID = stringPreferencesKey("user_id")
+        val USER_EMAIL = stringPreferencesKey("user_email")
     }
 
     private val _authState = MutableStateFlow<AuthState>(AuthState.Unauthenticated)
@@ -54,21 +55,23 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     // Cargar datos desde DataStore
     private fun getData() {
         viewModelScope.launch {
-            val preferences = context.dataStore.data.first()
+            val preferences = context.dataStoreAuth.data.first()
             _accessToken.value = preferences[ACCESS_TOKEN] ?: ""
             _refreshToken.value = preferences[REFRESH_TOKEN] ?: ""
             _userId.value = preferences[USER_ID] ?: ""
             _userEmail.value = preferences[USER_EMAIL] ?: ""
 
-            if (_accessToken.value.isNotEmpty() && _refreshToken.value.isNotEmpty() && _userId.value != null && _userEmail.value != null) {
+            if (_accessToken.value.isNotEmpty() && _refreshToken.value.isNotEmpty() &&
+                _userId.value != null && _userEmail.value != null) {
+
                 _authState.value = AuthState.Authenticated
 
-                Log.d("AuthViewModel", "Cargando datos desde DataStore:")
-                Log.d("AuthViewModel", "Token de acceso: " + _accessToken.value)
-                Log.d("AuthViewModel", "Token de refresco: " + _refreshToken.value)
-                Log.d("AuthViewModel", "ID del usuario: " + _userId.value!!)
-                Log.d("AuthViewModel", "Email del usuario: " + _userEmail.value!!)
-                Log.d("AuthViewModel", "Fin de la carga de datos.")
+                //Log.d("AuthViewModel", "Cargando datos desde DataStore:")
+                //Log.d("AuthViewModel", "Token de acceso: " + _accessToken.value)
+                //Log.d("AuthViewModel", "Token de refresco: " + _refreshToken.value)
+                //Log.d("AuthViewModel", "ID del usuario: " + _userId.value!!)
+                //Log.d("AuthViewModel", "Email del usuario: " + _userEmail.value!!)
+                //Log.d("AuthViewModel", "Fin de la carga de datos.")
 
             } else {
                 _authState.value = AuthState.Unauthenticated
@@ -76,20 +79,20 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    // Guardar en DataStore
+    // Guardar datos en DataStore
     private suspend fun saveData(
         accessToken: String,
         refreshToken: String,
         userId: String,
         userEmail: String
     ) {
-        context.dataStore.edit { preferences ->
+        context.dataStoreAuth.edit { preferences ->
             preferences[ACCESS_TOKEN] = accessToken
             preferences[REFRESH_TOKEN] = refreshToken
             preferences[USER_ID] = userId
             preferences[USER_EMAIL] = userEmail
         }
-        Log.d("AuthViewModel", "Datos guardados en DataStore.")
+        //Log.d("AuthViewModel", "Datos guardados en DataStore.")
     }
 
     // Validar email y contraseña
@@ -128,7 +131,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                     _accessToken.value = loginResponse.accessToken
                     _refreshToken.value = loginResponse.refreshToken
 
-                    Log.d("AuthViewModel", "Inicio de sesión exitoso.")
+                    //Log.d("AuthViewModel", "Inicio de sesión exitoso.")
 
                     // Obtener datos del usuario y guardarlos
                     getUserDataAndSave(email)
@@ -149,14 +152,14 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                 val signUpResponse = authRepository.singup(email, password)
 
                 if (signUpResponse.email.isNotEmpty()) {
-                    Log.d("AuthViewModel", "Registro exitoso.")
+                    //Log.d("AuthViewModel", "Registro exitoso.")
                     val loginResponse = authRepository.login(email, password)
 
                     if (loginResponse.accessToken.isNotEmpty() && loginResponse.refreshToken.isNotEmpty()) {
                         _accessToken.value = loginResponse.accessToken
                         _refreshToken.value = loginResponse.refreshToken
 
-                        Log.d("AuthViewModel", "Inicio de sesión exitoso.")
+                        //Log.d("AuthViewModel", "Inicio de sesión exitoso.")
 
                         // Obtener datos del usuario y guardarlos
                         getUserDataAndSave(email)
@@ -176,7 +179,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     // Cerrar sesión
     fun signOut() {
         viewModelScope.launch {
-            context.dataStore.edit { it.clear() }
+            context.dataStoreAuth.edit { it.clear() }
             _authState.value = AuthState.Unauthenticated
             _accessToken.value = ""
             _refreshToken.value = ""
@@ -204,15 +207,17 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                         _userEmail.value ?: ""
                     )
 
-                    Log.d("AuthViewModel", "Obteniendo datos desde la API:")
-                    Log.d("AuthViewModel", "Token de acceso: " + _accessToken.value)
-                    Log.d("AuthViewModel", "Token de refresco: " + _refreshToken.value)
-                    Log.d("AuthViewModel", "ID del usuario: " + _userId.value!!)
-                    Log.d("AuthViewModel", "Email del usuario: " + _userEmail.value!!)
+                    //Log.d("AuthViewModel", "Obteniendo datos desde la API:")
+                    //Log.d("AuthViewModel", "Token de acceso: " + _accessToken.value)
+                    //Log.d("AuthViewModel", "Token de refresco: " + _refreshToken.value)
+                    //Log.d("AuthViewModel", "ID del usuario: " + _userId.value!!)
+                    //Log.d("AuthViewModel", "Email del usuario: " + _userEmail.value!!)
 
                 } else {
                     _authState.value = AuthState.Error("server_error")
                 }
+            } else {
+                _authState.value = AuthState.Error("server_error")
             }
         }
     }
@@ -227,7 +232,8 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                 if (response.token.isNotEmpty()) {
                     _accessToken.value = response.token
 
-                    Log.d("AuthViewModel", "Se ha refrescado el token.")
+                    //Log.d("AuthViewModel", "Se ha refrescado el token.")
+                    //Log.d("AuthViewModel", "Token de refresco: " + _refreshToken.value)
 
                     // Guardar datos del usuario en DataStore
                     saveData(
@@ -242,6 +248,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                 } else {
                     _authState.value = AuthState.Error("token_refresh_error")
                 }
+
+            } else {
+                _authState.value = AuthState.Error("token_refresh_error")
             }
         }
     }
