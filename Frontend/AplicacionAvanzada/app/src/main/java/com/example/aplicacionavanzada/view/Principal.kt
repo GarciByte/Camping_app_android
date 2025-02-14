@@ -106,10 +106,10 @@ fun Principal(navController: NavController, authViewModel: AuthViewModel) {
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    CardButton( // Pokédex
-                        label = stringResource(R.string.pokedex),
-                        onClick = { navController.navigate(AppScreens.Pokedex.route) },
-                        icon = painterResource(id = R.drawable.pokedex)
+                    CardButton( // Actividades
+                        label = stringResource(R.string.activities),
+                        onClick = { navController.navigate(AppScreens.Activities.route) },
+                        icon = painterResource(id = R.drawable.activities)
                     )
                     CardButton( // Tareas
                         label = stringResource(R.string.tasks),

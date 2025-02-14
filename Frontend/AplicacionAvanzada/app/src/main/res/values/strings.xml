@@ -71,4 +71,14 @@
     <string name="token_refresh_error">Error al refrescar el token</string>
     <string name="generic_error">Error desconocido</string>
 
+    <string name="activities">Actividades</string>
+    <string name="login_warning">Debes iniciar sesión para acceder a las actividades.</string>
+    <string name="activity_title">Mis Actividades</string>
+    <string name="all_activities">Todas las Actividades</string>
+    <string name="my_activities">Mis Actividades</string>
+    <string name="signup_success">¡Te has apuntado a la actividad con éxito!</string>
+    <string name="unsubscribe_success">Te has dado de baja de la actividad.</string>
+    <string name="sign_up">Apuntarse</string>
+    <string name="unsubscribe">Darse de baja</string>
+
 </resources>

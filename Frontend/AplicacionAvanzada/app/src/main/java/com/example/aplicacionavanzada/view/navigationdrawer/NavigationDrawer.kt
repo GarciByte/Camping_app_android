@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.automirrored.outlined.List
+import androidx.compose.material.icons.automirrored.outlined.Send
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Home
@@ -59,6 +61,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.aplicacionavanzada.R
 import com.example.aplicacionavanzada.model.AppScreens
 import com.example.aplicacionavanzada.view.AcercaDe
+import com.example.aplicacionavanzada.view.Activities
 import com.example.aplicacionavanzada.view.Ayuda
 import com.example.aplicacionavanzada.view.Configuracion
 import com.example.aplicacionavanzada.view.Pokedex
@@ -67,6 +70,7 @@ import com.example.aplicacionavanzada.view.Tasks
 import com.example.aplicacionavanzada.view.authentication.Login
 import com.example.aplicacionavanzada.view.authentication.Signup
 import com.example.aplicacionavanzada.view.dialogs.GeneralAlertDialog
+import com.example.aplicacionavanzada.viewmodel.activities.ViewModelActivities
 import com.example.aplicacionavanzada.viewmodel.authentication.AuthViewModel
 import com.example.aplicacionavanzada.viewmodel.tasks.TasksViewModel
 import kotlinx.coroutines.launch
@@ -81,7 +85,7 @@ data class NavigationItem(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NavigationDrawer(authViewModel: AuthViewModel, viewModel: TasksViewModel) {
+fun NavigationDrawer(authViewModel: AuthViewModel, viewModel: TasksViewModel, viewModelActivities: ViewModelActivities) {
 
     val pendingTasks by viewModel.getPendingTaskCount().collectAsState(initial = 0)
     val navController = rememberNavController()
@@ -102,6 +106,12 @@ fun NavigationDrawer(authViewModel: AuthViewModel, viewModel: TasksViewModel) {
             selectedIcon = Icons.Filled.Check,
             unselectedIcon = Icons.Outlined.Check,
             badgeCount = pendingTasks
+        ),
+        NavigationItem(
+            title = stringResource(R.string.activities),
+            onClick = { navController.navigate(AppScreens.Activities.route) },
+            selectedIcon = Icons.AutoMirrored.Filled.Send,
+            unselectedIcon = Icons.AutoMirrored.Outlined.Send
         ),
         NavigationItem(
             title = stringResource(R.string.pokedex),
@@ -280,6 +290,13 @@ fun NavigationDrawer(authViewModel: AuthViewModel, viewModel: TasksViewModel) {
                     }
                     composable(AppScreens.Tasks.route) {
                         Tasks(navController = navController)
+                    }
+                    composable(AppScreens.Activities.route) {
+                        Activities(
+                            viewModelActivities = viewModelActivities,
+                            authViewModel = authViewModel,
+                            navController = navController
+                        )
                     }
                 }
             }

@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.aplicacionavanzada.view.theme.AplicacionAvanzadaTheme
 import com.example.aplicacionavanzada.view.navigationdrawer.NavigationDrawer
+import com.example.aplicacionavanzada.viewmodel.activities.ViewModelActivities
 import com.example.aplicacionavanzada.viewmodel.authentication.AuthViewModel
 import com.example.aplicacionavanzada.viewmodel.tasks.TasksViewModel
 
@@ -18,8 +19,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             AplicacionAvanzadaTheme {
                 val authViewModel: AuthViewModel by viewModels()
+                val viewModelActivities: ViewModelActivities by viewModels()
                 val tasksViewModel: TasksViewModel = viewModel(factory = TasksViewModel.Factory)
-                NavigationDrawer(authViewModel = authViewModel, viewModel = tasksViewModel)
+                NavigationDrawer(authViewModel = authViewModel, viewModel = tasksViewModel, viewModelActivities = viewModelActivities)
             }
         }
     }

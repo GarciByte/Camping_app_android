@@ -71,4 +71,14 @@
     <string name="token_refresh_error">Token refresh failed</string>
     <string name="generic_error">Unknown error occurred</string>
 
+    <string name="activities">Activities</string>
+    <string name="login_warning">You must log in to access activities.</string>
+    <string name="activity_title">My Activities</string>
+    <string name="all_activities">All Activities</string>
+    <string name="my_activities">My Activities</string>
+    <string name="signup_success">You have successfully signed up for the activity!</string>
+    <string name="unsubscribe_success">You have been unsubscribed from the activity.</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="unsubscribe">Unsubscribe</string>
+
 </resources>
