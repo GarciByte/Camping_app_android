@@ -16,7 +16,7 @@ class ActivitiesRepository {
     }
 
     // Obtener todas las actividades en las que participa un usuario
-    suspend fun getAllParticipation(accessToken: String, userId: String): List<ParticipationResponse> {
+    suspend fun getAllParticipation(accessToken: String, userId: String): List<ActivityResponse> {
         val bearerToken = "Bearer $accessToken"
         return withContext(Dispatchers.IO) {
             val response = activitiesClient.getUserParticipation(bearerToken, userId)
@@ -38,10 +38,11 @@ class ActivitiesRepository {
     }
 
     // Eliminar una participación
-    suspend fun deleteParticipation(accessToken: String, participationId: String) {
+    suspend fun deleteParticipation(accessToken: String, activityId: String, userId: String): Boolean {
         val bearerToken = "Bearer $accessToken"
         return withContext(Dispatchers.IO) {
-            activitiesClient.deleteUserParticipation(bearerToken, participationId)
+            val response = activitiesClient.deleteUserParticipation(bearerToken, activityId, userId)
+            response.body() ?: false
         }
     }
 }

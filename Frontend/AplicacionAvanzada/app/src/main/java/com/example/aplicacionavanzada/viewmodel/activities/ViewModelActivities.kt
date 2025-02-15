@@ -13,6 +13,7 @@ import com.example.aplicacionavanzada.viewmodel.authentication.AuthViewModel.Com
 import com.example.aplicacionavanzada.viewmodel.authentication.AuthViewModel.Companion.USER_EMAIL
 import com.example.aplicacionavanzada.viewmodel.authentication.AuthViewModel.Companion.USER_ID
 import com.example.aplicacionavanzada.viewmodel.authentication.AuthViewModel.Companion.dataStoreAuth
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
@@ -27,41 +28,26 @@ class ViewModelActivities(application: Application) : AndroidViewModel(applicati
     private val _activities = MutableStateFlow<List<ActivityResponse>>(emptyList())
     val activities: StateFlow<List<ActivityResponse>> = _activities
 
-    private val _participations = MutableStateFlow<List<ParticipationResponse>>(emptyList())
-    val participations: StateFlow<List<ParticipationResponse>> = _participations
+    private val _participations = MutableStateFlow<List<ActivityResponse>>(emptyList())
+    val participations: StateFlow<List<ActivityResponse>> = _participations
 
     private val _accessToken = MutableStateFlow("")
     val accessToken: StateFlow<String> = _accessToken
 
-    private val _refreshToken = MutableStateFlow("")
-    val refreshToken: StateFlow<String> = _refreshToken
-
     private val _userId = MutableStateFlow<String?>(null)
     val userId: StateFlow<String?> = _userId
-
-    private val _userEmail = MutableStateFlow<String?>(null)
-    val userEmail: StateFlow<String?> = _userEmail
 
     init {
         getData()
     }
 
     // Cargar datos desde DataStore
-    private fun getData() {
+    fun getData() {
         viewModelScope.launch {
             val preferences = context.dataStoreAuth.data.first()
 
             _accessToken.value = preferences[ACCESS_TOKEN] ?: ""
-            _refreshToken.value = preferences[REFRESH_TOKEN] ?: ""
             _userId.value = preferences[USER_ID] ?: ""
-            _userEmail.value = preferences[USER_EMAIL] ?: ""
-
-            Log.d("Activities", "Cargando datos desde DataStore:")
-            Log.d("Activities", "Token de acceso: " + _accessToken.value)
-            Log.d("Activities", "Token de refresco: " + _refreshToken.value)
-            Log.d("Activities", "ID del usuario: " + _userId.value!!)
-            Log.d("Activities", "Email del usuario: " + _userEmail.value!!)
-            Log.d("Activities", "Fin de la carga de datos.")
         }
     }
 
@@ -72,7 +58,6 @@ class ViewModelActivities(application: Application) : AndroidViewModel(applicati
             if (token.isNotEmpty()) {
                 val activities = activitiesRepository.getAllActivities(token)
                 _activities.value = activities
-                Log.d("Activities", "Actividades: " +_activities.value)
             }
         }
     }
@@ -80,44 +65,41 @@ class ViewModelActivities(application: Application) : AndroidViewModel(applicati
     // Lista de participaciones del usuario
     fun getUserActivities() {
         viewModelScope.launch {
+            delay(1500)
             val token = _accessToken.value
             val userId = _userId.value
             if (token.isNotEmpty() && !userId.isNullOrEmpty()) {
                 val participations = activitiesRepository.getAllParticipation(token, userId)
                 _participations.value = participations
-                Log.d("Activities", "Participaciones: " +_participations.value)
             }
         }
     }
 
     // Registra la participación del usuario en una actividad
-    fun createParticipation(activityId: Long) {
-        viewModelScope.launch {
-            val token = _accessToken.value
-            val userId = _userId.value
-            if (token.isNotEmpty() && !userId.isNullOrEmpty()) {
+    suspend fun createParticipation(activityId: Long): ParticipationResponse {
+        val token = _accessToken.value
+        val userId = _userId.value
+        return if (token.isNotEmpty() && !userId.isNullOrEmpty()) {
+            val participationResponse =
                 activitiesRepository.setParticipation(token, userId, activityId)
-                getUserActivities()
-            }
+            getUserActivities()
+            participationResponse
+        } else {
+            ParticipationResponse("", "", 0)
         }
     }
 
     // Elimina la participación del usuario en una actividad
-    fun deleteParticipation(activityId: Long) {
-        viewModelScope.launch {
-            val token = _accessToken.value
-            val userId = _userId.value
-            if (token.isNotEmpty() && !userId.isNullOrEmpty()) {
-
-                val participation = _participations.value.find {
-                    it.activityId == activityId
-                }
-
-                participation?.let {
-                    activitiesRepository.deleteParticipation(token, it.id)
-                    getUserActivities()
-                }
+    suspend fun deleteParticipation(activityId: String): Boolean {
+        val token = _accessToken.value
+        val userId = _userId.value
+        if (token.isNotEmpty() && !userId.isNullOrEmpty()) {
+            val response = activitiesRepository.deleteParticipation(token, activityId, userId)
+            if (response) {
+                getUserActivities()
+                return true
             }
         }
+        return false
     }
 }

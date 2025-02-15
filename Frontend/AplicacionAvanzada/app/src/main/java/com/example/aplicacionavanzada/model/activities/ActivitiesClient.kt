@@ -19,7 +19,7 @@ interface ActivitiesClient {
     suspend fun getUserParticipation(
         @Header("Authorization") bearerToken: String,
         @Path("userId") userId: String
-    ): Response<List<ParticipationResponse>>
+    ): Response<List<ActivityResponse>>
 
     @POST("participation")
     suspend fun setUserParticipation(
@@ -27,9 +27,10 @@ interface ActivitiesClient {
         @Body participationRequest: ParticipationRequest
     ): Response<ParticipationResponse>
 
-    @DELETE("participation/{participationId}")
+    @DELETE("participation/{activityId}/{userId}")
     suspend fun deleteUserParticipation(
         @Header("Authorization") bearerToken: String,
-        @Path("participationId") participationId: String
-    )
+        @Path("activityId") activityId: String,
+        @Path("userId") userId: String
+    ): Response<Boolean>
 }

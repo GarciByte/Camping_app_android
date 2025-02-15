@@ -73,12 +73,15 @@
 
     <string name="activities">Actividades</string>
     <string name="login_warning">Debes iniciar sesión para acceder a las actividades.</string>
-    <string name="activity_title">Mis Actividades</string>
     <string name="all_activities">Todas las Actividades</string>
     <string name="my_activities">Mis Actividades</string>
-    <string name="signup_success">¡Te has apuntado a la actividad con éxito!</string>
-    <string name="unsubscribe_success">Te has dado de baja de la actividad.</string>
-    <string name="sign_up">Apuntarse</string>
-    <string name="unsubscribe">Darse de baja</string>
+    <string name="signup_success_activity">¡Te has apuntado a la actividad con éxito!</string>
+    <string name="signup_error_activity">¡Ya estás apuntado a esa actividad!</string>
 
+    <string name="no_activities">No hay actividades disponibles.</string>
+    <string name="no_participations">No estás participando en ninguna actividad.</string>
+    <string name="unsubscribe_success_activity">Te has eliminado de la actividad.</string>
+    <string name="unsubscribe_error_activity">Se ha producido un error eliminándote de la actividad.</string>
+    <string name="sign_up_activity">Apuntarse</string>
+    <string name="unsubscribe_activity">Cancelar</string>
 </resources>

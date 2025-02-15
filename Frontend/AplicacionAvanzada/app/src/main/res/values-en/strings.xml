@@ -73,12 +73,15 @@
 
     <string name="activities">Activities</string>
     <string name="login_warning">You must log in to access activities.</string>
-    <string name="activity_title">My Activities</string>
     <string name="all_activities">All Activities</string>
     <string name="my_activities">My Activities</string>
-    <string name="signup_success">You have successfully signed up for the activity!</string>
-    <string name="unsubscribe_success">You have been unsubscribed from the activity.</string>
-    <string name="sign_up">Sign Up</string>
-    <string name="unsubscribe">Unsubscribe</string>
+    <string name="signup_success_activity">You have successfully signed up for the activity!</string>
+    <string name="signup_error_activity">You\'re already signed up for that activity!</string>
 
+    <string name="no_activities">No activities available.</string>
+    <string name="no_participations">You are not participating in any activity.</string>
+    <string name="unsubscribe_success_activity">You have been unsubscribed from the activity.</string>
+    <string name="unsubscribe_error_activity">An error occurred removing you from the activity.</string>
+    <string name="sign_up_activity">Sign Up</string>
+    <string name="unsubscribe_activity">Unsubscribe</string>
 </resources>

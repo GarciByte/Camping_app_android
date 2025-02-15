@@ -36,12 +36,14 @@ class ParticipationController(private val participationService: ParticipationSer
         participationService.getActivityParticipants(activityId).map { it.toResponse() }
 
     // Eliminar una participación por su ID
-    @DeleteMapping("/{participationId}")
-    fun deleteParticipation(@PathVariable participationId: String): ResponseEntity<Void> {
-        return if (participationService.deleteParticipation(participationId)) {
-            ResponseEntity.noContent().build()
+    @DeleteMapping("/{activityId}/{userId}")
+    fun deleteParticipation(@PathVariable activityId: String, @PathVariable userId: String): Boolean {
+        val allParticipations = participationService.findAll()
+        val participation = allParticipations.find { it.activityId == activityId.toLong() && it.userId == userId }
+        return if (participation != null) {
+            participationService.deleteParticipation(participation.id!!)
         } else {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).build()
+            false
         }
     }
 

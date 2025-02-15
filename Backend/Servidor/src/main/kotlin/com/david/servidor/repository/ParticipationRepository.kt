@@ -59,7 +59,7 @@ class ParticipationRepository(private val db: JdbcTemplate) {
                 id
             )
         } catch (e: EmptyResultDataAccessException) {
-            print("Prueba")
+            print("No existe esa participación")
             null
         }
     }
