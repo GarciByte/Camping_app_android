@@ -2,15 +2,12 @@ package com.example.aplicacionavanzada.viewmodel.activities
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.aplicacionavanzada.model.activities.ActivitiesRepository
 import com.example.aplicacionavanzada.model.activities.ActivityResponse
 import com.example.aplicacionavanzada.model.activities.ParticipationResponse
 import com.example.aplicacionavanzada.viewmodel.authentication.AuthViewModel.Companion.ACCESS_TOKEN
-import com.example.aplicacionavanzada.viewmodel.authentication.AuthViewModel.Companion.REFRESH_TOKEN
-import com.example.aplicacionavanzada.viewmodel.authentication.AuthViewModel.Companion.USER_EMAIL
 import com.example.aplicacionavanzada.viewmodel.authentication.AuthViewModel.Companion.USER_ID
 import com.example.aplicacionavanzada.viewmodel.authentication.AuthViewModel.Companion.dataStoreAuth
 import kotlinx.coroutines.delay
@@ -44,20 +41,30 @@ class ViewModelActivities(application: Application) : AndroidViewModel(applicati
     // Cargar datos desde DataStore
     fun getData() {
         viewModelScope.launch {
-            val preferences = context.dataStoreAuth.data.first()
+            try {
+                val preferences = context.dataStoreAuth.data.first()
 
-            _accessToken.value = preferences[ACCESS_TOKEN] ?: ""
-            _userId.value = preferences[USER_ID] ?: ""
+                _accessToken.value = preferences[ACCESS_TOKEN] ?: ""
+                _userId.value = preferences[USER_ID] ?: ""
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
     // Lista de actividades
     fun getAllActivities() {
         viewModelScope.launch {
-            val token = _accessToken.value
-            if (token.isNotEmpty()) {
-                val activities = activitiesRepository.getAllActivities(token)
-                _activities.value = activities
+            try {
+                val token = _accessToken.value
+                if (token.isNotEmpty()) {
+                    val activities = activitiesRepository.getAllActivities(token)
+                    _activities.value = activities
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }
@@ -65,41 +72,58 @@ class ViewModelActivities(application: Application) : AndroidViewModel(applicati
     // Lista de participaciones del usuario
     fun getUserActivities() {
         viewModelScope.launch {
-            delay(1500)
-            val token = _accessToken.value
-            val userId = _userId.value
-            if (token.isNotEmpty() && !userId.isNullOrEmpty()) {
-                val participations = activitiesRepository.getAllParticipation(token, userId)
-                _participations.value = participations
+            try {
+                delay(1500)
+                val token = _accessToken.value
+                val userId = _userId.value
+                if (token.isNotEmpty() && !userId.isNullOrEmpty()) {
+                    val participations = activitiesRepository.getAllParticipation(token, userId)
+                    _participations.value = participations
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }
 
     // Registra la participación del usuario en una actividad
     suspend fun createParticipation(activityId: Long): ParticipationResponse {
-        val token = _accessToken.value
-        val userId = _userId.value
-        return if (token.isNotEmpty() && !userId.isNullOrEmpty()) {
-            val participationResponse =
-                activitiesRepository.setParticipation(token, userId, activityId)
-            getUserActivities()
-            participationResponse
-        } else {
-            ParticipationResponse("", "", 0)
+        try {
+            val token = _accessToken.value
+            val userId = _userId.value
+            return if (token.isNotEmpty() && !userId.isNullOrEmpty()) {
+                val participationResponse =
+                    activitiesRepository.setParticipation(token, userId, activityId)
+                getUserActivities()
+                participationResponse
+            } else {
+                ParticipationResponse("", "", 0)
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return ParticipationResponse("", "", 0)
         }
     }
 
     // Elimina la participación del usuario en una actividad
     suspend fun deleteParticipation(activityId: String): Boolean {
-        val token = _accessToken.value
-        val userId = _userId.value
-        if (token.isNotEmpty() && !userId.isNullOrEmpty()) {
-            val response = activitiesRepository.deleteParticipation(token, activityId, userId)
-            if (response) {
-                getUserActivities()
-                return true
+        try {
+            val token = _accessToken.value
+            val userId = _userId.value
+            if (token.isNotEmpty() && !userId.isNullOrEmpty()) {
+                val response = activitiesRepository.deleteParticipation(token, activityId, userId)
+                if (response) {
+                    getUserActivities()
+                    return true
+                }
             }
+            return false
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return false
         }
-        return false
     }
 }

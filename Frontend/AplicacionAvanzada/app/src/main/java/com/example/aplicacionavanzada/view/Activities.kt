@@ -52,6 +52,7 @@ import androidx.navigation.NavController
 import com.example.aplicacionavanzada.R
 import com.example.aplicacionavanzada.model.AppScreens
 import com.example.aplicacionavanzada.model.activities.ActivityResponse
+import com.example.aplicacionavanzada.view.dialogs.ToastMessage
 import com.example.aplicacionavanzada.viewmodel.activities.ViewModelActivities
 import com.example.aplicacionavanzada.viewmodel.authentication.AuthState
 import com.example.aplicacionavanzada.viewmodel.authentication.AuthViewModel
@@ -76,13 +77,27 @@ fun Activities(
 
     // Comprobar el estado de autenticación
     LaunchedEffect(Unit) {
-        if (currentState !is AuthState.Authenticated) {
+        if (currentState is AuthState.Unauthenticated) {
             navController.navigate(AppScreens.Login.route) {
                 popUpTo("activities") { inclusive = true }
             }
             Toast.makeText(
                 context,
                 context.getString(R.string.login_warning),
+                Toast.LENGTH_LONG
+            ).show()
+        }
+
+        if (currentState is AuthState.Error) {
+            val messageId = ToastMessage.getStringResourceId((currentState as AuthState.Error).messageKey)
+            val translatedMessage = context.getString(messageId)
+
+            navController.navigate(AppScreens.Login.route) {
+                popUpTo("activities") { inclusive = true }
+            }
+            Toast.makeText(
+                context,
+                translatedMessage,
                 Toast.LENGTH_LONG
             ).show()
         }
